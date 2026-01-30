@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from pymysql import connections
 import os
 import random
@@ -50,6 +50,10 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 def home():
     return render_template('addemp.html', color=color_codes[COLOR])
 
+@app.route("/<path:anything>", methods=['GET', 'POST'])
+def catch_all(anything):
+    return redirect("/")
+
 @app.route("/about", methods=['GET','POST'])
 def about():
     return render_template('about.html', color=color_codes[COLOR])
@@ -92,8 +96,11 @@ def FetchData():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(select_sql,(emp_id))
-        result = cursor.fetchone()
+        cursor.execute(select_sql, (emp_id,))
+        result = cursor.fetchone
+        
+        if not result:
+            return render_template("getempoutput.html", id="N/A", fname="Not found", lname="", interest="", location="", color=color_codes[COLOR])
         
         # Add No Employee found form
         output["emp_id"] = result[0]
