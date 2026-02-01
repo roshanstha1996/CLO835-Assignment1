@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request
 from pymysql import connections
 import os
 import random
 import argparse
 
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
@@ -25,7 +25,6 @@ db_conn = connections.Connection(
 )
 output = {}
 table = 'employee';
-
 
 # Define the supported color codes
 color_codes = {
@@ -49,10 +48,6 @@ COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lim
 @app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template('addemp.html', color=color_codes[COLOR])
-
-@app.route("/<path:anything>", methods=['GET', 'POST'])
-def catch_all(anything):
-    return redirect("/")
 
 @app.route("/about", methods=['GET','POST'])
 def about():
@@ -96,11 +91,8 @@ def FetchData():
     cursor = db_conn.cursor()
 
     try:
-        cursor.execute(select_sql, (emp_id,))
-        result = cursor.fetchone
-        
-        if not result:
-            return render_template("getempoutput.html", id="N/A", fname="Not found", lname="", interest="", location="", color=color_codes[COLOR])
+        cursor.execute(select_sql,(emp_id))
+        result = cursor.fetchone()
         
         # Add No Employee found form
         output["emp_id"] = result[0]
@@ -118,7 +110,7 @@ def FetchData():
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     
     # Check for Command Line Parameters for color
     parser = argparse.ArgumentParser()
