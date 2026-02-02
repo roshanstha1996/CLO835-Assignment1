@@ -5,7 +5,7 @@ import random
 import argparse
 
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
@@ -110,7 +110,8 @@ def FetchData():
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
 
-if _name_ == '_main_':
+if __name__ == '__main__':
+    
     
     # Check for Command Line Parameters for color
     parser = argparse.ArgumentParser()
