@@ -112,7 +112,6 @@ def FetchData():
 
 if __name__ == '__main__':
     
-    
     # Check for Command Line Parameters for color
     parser = argparse.ArgumentParser()
     parser.add_argument('--color', required=False)
