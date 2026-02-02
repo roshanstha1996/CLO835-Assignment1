@@ -6,4 +6,3 @@ ENV MYSQL_DATABASE=employees
 COPY mysql.sql /docker-entrypoint-initdb.d/
 
 EXPOSE 3306
-
